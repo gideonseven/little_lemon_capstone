@@ -13,6 +13,6 @@ object Home: Destinations{
     override val route = "Home"
 }
 
-object Menu: Destinations{
-    override val route = "Menu"
+object Profile: Destinations{
+    override val route = "Profile"
 }

@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.gideon.little_lemon.ui.screen.HomeScreen
 import com.gideon.little_lemon.ui.screen.MenuListScreen
 import com.gideon.little_lemon.ui.screen.Onboarding
+import com.gideon.little_lemon.ui.screen.Profile
 import com.gideon.little_lemon.ui.screen.TopAppBar
 import com.gideon.little_lemon.ui.theme.Little_lemonTheme
 
@@ -63,8 +64,8 @@ fun MyNavigation() {
         composable(Home.route) {
             HomeScreen(navController)
         }
-        composable(Menu.route) {
-            MenuListScreen(navController)
+        composable(Profile.route) {
+            Profile(navController)
         }
     }
 }

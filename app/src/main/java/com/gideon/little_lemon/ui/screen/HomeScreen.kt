@@ -24,8 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.gideon.little_lemon.Dishes
-import com.gideon.little_lemon.Menu
+import com.gideon.little_lemon.Profile
 import com.gideon.little_lemon.R
 
 @Composable
@@ -66,7 +65,7 @@ fun HomeScreen(navController: NavController) {
                 )
             }
             Button(
-                onClick = { navController.navigate(Menu.route) },
+                onClick = { navController.navigate(Profile.route) },
                 shape = RoundedCornerShape(20.dp),
                 colors = ButtonDefaults.buttonColors(colorResource(R.color.base_yellow))
             ) {

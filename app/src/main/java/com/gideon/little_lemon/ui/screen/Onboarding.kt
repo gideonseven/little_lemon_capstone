@@ -1,11 +1,10 @@
-package com.gideon.little_lemon
+package com.gideon.little_lemon.ui.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -16,13 +15,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.gideon.little_lemon.Home
+import com.gideon.little_lemon.R
 
 @Composable
 fun Onboarding(
-    modifier: Modifier = Modifier,
+    navController: NavController,
     onRegister: (first: String, last: String, email: String) -> Unit = { _, _, _ -> }
 ) {
     // State (hoisted-friendly: you can pass these down if you prefer)
@@ -38,7 +39,7 @@ fun Onboarding(
     Scaffold(
         topBar = {
             Column(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -50,11 +51,19 @@ fun Onboarding(
                     modifier = Modifier
                         .fillMaxWidth()
                 )
+
+                Text(
+                    "Let's get to know you",
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    fontSize = 24.sp
+                )
             }
         }
     ) { inner ->
         Column(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .padding(inner)
                 .padding(horizontal = surfacePadding),
@@ -100,7 +109,13 @@ fun Onboarding(
             Spacer(Modifier.height(28.dp))
 
             Button(
-                onClick = { onRegister(firstName.trim(), lastName.trim(), email.trim()) },
+                onClick = {
+                    onRegister(firstName.trim(), lastName.trim(), email.trim())
+
+
+                    navController.navigate(Home.route)
+
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp),
@@ -149,13 +164,5 @@ private fun LabeledTextField(
             ),
             keyboardActions = KeyboardActions(onDone = { /* hide keyboard if needed */ })
         )
-    }
-}
-
-@Preview
-@Composable
-fun OnboardingPreview() {
-    MaterialTheme {
-        Onboarding()
     }
 }

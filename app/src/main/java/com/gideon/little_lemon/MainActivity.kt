@@ -8,13 +8,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.gideon.little_lemon.ui.screen.HomeScreen
+import com.gideon.little_lemon.ui.screen.MenuListScreen
+import com.gideon.little_lemon.ui.screen.Onboarding
+import com.gideon.little_lemon.ui.screen.TopAppBar
 import com.gideon.little_lemon.ui.theme.Little_lemonTheme
 
 class MainActivity : ComponentActivity() {

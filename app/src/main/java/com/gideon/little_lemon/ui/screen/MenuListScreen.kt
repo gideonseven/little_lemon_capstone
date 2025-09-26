@@ -1,4 +1,4 @@
-package com.gideon.little_lemon
+package com.gideon.little_lemon.ui.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,6 +25,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.gideon.little_lemon.Dish
+import com.gideon.little_lemon.Dishes
+import com.gideon.little_lemon.R
 
 
 @Composable

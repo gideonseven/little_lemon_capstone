@@ -1,4 +1,4 @@
-package com.gideon.little_lemon
+package com.gideon.little_lemon.ui.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -15,10 +15,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.gideon.little_lemon.Home
+import com.gideon.little_lemon.R
 
 @Composable
 fun Onboarding(

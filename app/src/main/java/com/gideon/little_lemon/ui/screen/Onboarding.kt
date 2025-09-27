@@ -20,11 +20,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.gideon.little_lemon.Home
 import com.gideon.little_lemon.R
+import com.gideon.little_lemon.UserViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Onboarding(
     navController: NavController,
-    onRegister: (first: String, last: String, email: String) -> Unit = { _, _, _ -> }
+    userViewModel: UserViewModel = hiltViewModel()
 ) {
     // State (hoisted-friendly: you can pass these down if you prefer)
     var firstName by remember { mutableStateOf("") }
@@ -110,11 +113,7 @@ fun Onboarding(
 
             Button(
                 onClick = {
-                    onRegister(firstName.trim(), lastName.trim(), email.trim())
-
-
                     navController.navigate(Home.route)
-
                 },
                 modifier = Modifier
                     .fillMaxWidth()

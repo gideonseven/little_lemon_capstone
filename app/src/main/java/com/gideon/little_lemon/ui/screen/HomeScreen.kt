@@ -26,9 +26,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.gideon.little_lemon.Profile
 import com.gideon.little_lemon.R
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.gideon.little_lemon.UserViewModel
 
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(
+    navController: NavController,
+    userViewModel: UserViewModel = hiltViewModel()
+) {
     Column {
         Column(
             modifier = Modifier

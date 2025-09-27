@@ -1,5 +1,6 @@
 package com.gideon.little_lemon
 
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,15 +11,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.gideon.little_lemon.ui.screen.HomeScreen
 import com.gideon.little_lemon.ui.screen.Onboarding
-import com.gideon.little_lemon.ui.screen.Profile
-import com.gideon.little_lemon.ui.screen.TopAppBar
+import com.gideon.little_lemon.ui.screen.ProfileScreen
 import com.gideon.little_lemon.ui.theme.Little_lemonTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +39,7 @@ class MainActivity : ComponentActivity() {
 private fun AppScreen() {
     Scaffold(
         topBar = {
-            TopAppBar()
+//            TopAppBar()
         }
     ) {
         Box(
@@ -53,9 +56,19 @@ private fun AppScreen() {
 @Composable
 fun MyNavigation() {
     val navController = rememberNavController()
+
+    // Using Hilt - no need to pass anything!
+    val userViewModel: UserViewModel = hiltViewModel()
+
+    // Check if user is already registered
+    val startDestination = if (userViewModel.isUserRegistered()) {
+        Home.route
+    } else {
+        Onboarding.route
+    }
     NavHost(
         navController = navController,
-        startDestination = Onboarding.route
+        startDestination = startDestination
     ) {
         composable(Onboarding.route) {
             Onboarding(navController = navController)
@@ -64,7 +77,7 @@ fun MyNavigation() {
             HomeScreen(navController)
         }
         composable(Profile.route) {
-            Profile(navController)
+            ProfileScreen(navController)
         }
     }
 }

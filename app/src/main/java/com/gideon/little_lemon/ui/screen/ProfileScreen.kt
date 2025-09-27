@@ -34,11 +34,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.gideon.little_lemon.Home
 import com.gideon.little_lemon.R
+import com.gideon.little_lemon.UserViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
-fun Profile(
+fun ProfileScreen(
     navController: NavController,
-    onRegister: (first: String, last: String, email: String) -> Unit = { _, _, _ -> }
+    userViewModel: UserViewModel = hiltViewModel()
 ) {
     // State (hoisted-friendly: you can pass these down if you prefer)
     var firstName by remember { mutableStateOf("") }
@@ -117,14 +119,13 @@ fun Profile(
                 value = email,
                 onValueChange = { email = it },
                 keyboardType = KeyboardType.Email,
-                imeAction = ImeAction.Done
+                imeAction = ImeAction.Done,
             )
 
             Spacer(Modifier.height(28.dp))
 
             Button(
                 onClick = {
-                    onRegister(firstName.trim(), lastName.trim(), email.trim())
 
 
                     navController.navigate(Home.route)
@@ -138,11 +139,9 @@ fun Profile(
                     containerColor = brandYellow,
                     contentColor = Color.Black
                 ),
-                enabled = firstName.isNotBlank() && lastName.isNotBlank() && email.isNotBlank()
             ) {
-                Text("Register", fontWeight = FontWeight.Medium)
+                Text("Logout", fontWeight = FontWeight.Medium)
             }
-
             Spacer(Modifier.height(16.dp))
         }
     }
@@ -171,6 +170,7 @@ private fun LabeledTextField(
             onValueChange = onValueChange,
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
+            enabled = false,
             shape = RoundedCornerShape(8.dp),
             keyboardOptions = KeyboardOptions(
                 keyboardType = keyboardType,

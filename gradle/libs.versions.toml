@@ -14,6 +14,9 @@ hiltVersion = "2.57.2"
 hiltNavigationCompose = "1.2.0"
 ktorVersion = "2.1.3"
 roomVersion = "2.4.3"
+liivedataVersion ="1.3.2"
+coilVersion = "3.0.0"
+serializationJson = "1.7.3"  # works with Kotlin 2.0.x
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -33,6 +36,9 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 androidx-hilt-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navVersion" }
 
+#livedata
+androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "liivedataVersion" }
+
 #ktor
 ktor-client-android = {group = "io.ktor", name ="ktor-client-android", version.ref="ktorVersion"}
 ktor-client-content-negotiation = {group = "io.ktor", name ="ktor-client-content-negotiation", version.ref="ktorVersion"}
@@ -45,6 +51,12 @@ dagger-hilt-android-compiler = { group = "com.google.dagger", name = "hilt-compi
 #room
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomVersion" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
+
+#coil
+coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coilVersion" }
+coil-compose-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coilVersion" }
+
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serializationJson" }
 
 [plugins]
 android-application  = { id = "com.android.application", version.ref = "agp" }

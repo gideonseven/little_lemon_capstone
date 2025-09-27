@@ -1,6 +1,7 @@
 package com.gideon.little_lemon.ui.screen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -15,13 +16,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.gideon.little_lemon.Home
 import com.gideon.little_lemon.R
 import com.gideon.little_lemon.UserViewModel
-import androidx.hilt.navigation.compose.hiltViewModel
+import com.gideon.little_lemon.ui.karlaFamily
+import com.gideon.little_lemon.ui.theme.brandGreen
 import com.gideon.little_lemon.ui.theme.brandYellow
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,8 +45,7 @@ fun Onboarding(
         topBar = {
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(24.dp),
+                    .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
@@ -52,16 +54,30 @@ fun Onboarding(
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .fillMaxWidth()
+                        .padding(top = 24.dp, bottom = 24.dp, start = 64.dp, end = 64.dp)
                 )
 
-                Text(
-                    "Let's get to know you",
-                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
+                Box(
+                    contentAlignment = Alignment.Center,
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    fontSize = 24.sp
-                )
+                        .fillMaxWidth()
+                        .height(120.dp)
+                        .background(brandGreen)
+                ) {
+
+
+                    Text(
+                        "Let's get to know you",
+                        textAlign = TextAlign.Center,
+                        fontSize = 24.sp,
+                        color = Color.White,
+                    )
+                }
+                Spacer(Modifier.height(16.dp))
             }
+        },
+        bottomBar = {
+            OnboardingBottomBar(userViewModel, firstName, lastName, email, navController)
         }
     ) { inner ->
         Column(
@@ -76,8 +92,9 @@ fun Onboarding(
             // Section title
             Text(
                 "Personal information",
-                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                fontWeight = FontWeight.Bold,
+                fontFamily = karlaFamily
             )
 
             Spacer(Modifier.height(16.dp))
@@ -107,28 +124,6 @@ fun Onboarding(
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Done
             )
-
-            Spacer(Modifier.height(28.dp))
-
-            Button(
-                onClick = {
-                    userViewModel.registerUser(firstName, lastName, email)
-                    navController.navigate(Home.route)
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp),
-                shape = RoundedCornerShape(8.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = brandYellow,
-                    contentColor = Color.Black
-                ),
-                enabled = firstName.isNotBlank() && lastName.isNotBlank() && email.isNotBlank()
-            ) {
-                Text("Register", fontWeight = FontWeight.Medium)
-            }
-
-            Spacer(Modifier.height(16.dp))
         }
     }
 }
@@ -144,11 +139,9 @@ private fun LabeledTextField(
     Column(Modifier.fillMaxWidth()) {
         Text(
             text = label,
-            style = MaterialTheme.typography.bodySmall.copy(
-                fontSize = 13.sp,
-                fontWeight = FontWeight.Medium,
-                color = Color(0xFF3B3B3B)
-            )
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Normal,
+            fontFamily = karlaFamily
         )
         Spacer(Modifier.height(6.dp))
         OutlinedTextField(
@@ -161,7 +154,46 @@ private fun LabeledTextField(
                 keyboardType = keyboardType,
                 imeAction = imeAction
             ),
-            keyboardActions = KeyboardActions(onDone = { /* hide keyboard if needed */ })
+            keyboardActions = KeyboardActions(onDone = { /* hide keyboard if needed */ }),
+            colors = OutlinedTextFieldDefaults.colors(
+                // keep it looking enabled; optional tuning:
+                focusedBorderColor = MaterialTheme.colorScheme.outline,
+                unfocusedBorderColor = MaterialTheme.colorScheme.outline
+            )
         )
+    }
+}
+
+
+@Composable
+private fun OnboardingBottomBar(
+    userViewModel: UserViewModel,
+    firstName: String,
+    lastName: String,
+    email: String,
+    navController: NavController
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        Button(
+            onClick = {
+                userViewModel.registerUser(firstName, lastName, email)
+                navController.navigate(Home.route)
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp),
+            shape = RoundedCornerShape(8.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = brandYellow,
+                contentColor = Color.Black
+            ),
+            enabled = firstName.isNotBlank() && lastName.isNotBlank() && email.isNotBlank()
+        ) {
+            Text("Register", fontWeight = FontWeight.Bold, fontFamily = karlaFamily)
+        }
     }
 }

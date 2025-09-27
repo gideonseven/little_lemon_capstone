@@ -123,7 +123,7 @@ fun TopAppBar() {
         }
 
         Image(
-            painter = painterResource(id = R.drawable.littlelemonimgtxt_nobg),
+            painter = painterResource(id = R.drawable.img_logo),
             contentDescription = "Little Lemon Logo",
             modifier = Modifier
                 .fillMaxWidth(.32f)

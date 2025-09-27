@@ -4,14 +4,17 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,20 +23,38 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.font.FontWeight.Companion.Bold
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.gideon.little_lemon.AppDatabase
+import com.gideon.little_lemon.MenuItemRoom
 import com.gideon.little_lemon.Profile
 import com.gideon.little_lemon.R
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.gideon.little_lemon.UserViewModel
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import coil3.compose.AsyncImage
 
 @Composable
 fun HomeScreen(
     navController: NavController,
-    userViewModel: UserViewModel
+    database: AppDatabase
 ) {
+    val databaseMenuItems by database.menuItemDao().getAll().observeAsState(emptyList())
+    var orderMenuItems by remember {
+        mutableStateOf(false)
+    }
+
+    var menuItems = if (orderMenuItems) {
+        databaseMenuItems.sortedBy { it.title }
+    } else {
+        databaseMenuItems
+    }
+
+
     Column {
         Column(
             modifier = Modifier
@@ -82,7 +103,7 @@ fun HomeScreen(
                 )
             }
         }
-        LowerPanel()
+        LowerPanel1(menuItems)
     }
 }
 
@@ -102,7 +123,7 @@ fun TopAppBar() {
         }
 
         Image(
-            painter = painterResource(id = R.drawable.littlelemonimgtxt_nobg),
+            painter = painterResource(id = R.drawable.img_logo),
             contentDescription = "Little Lemon Logo",
             modifier = Modifier
                 .fillMaxWidth(.32f)
@@ -124,10 +145,10 @@ fun TopAppBar() {
 }
 
 @Composable
-private fun LowerPanel() {
+private fun LowerPanel1(items: List<MenuItemRoom>) {
     Column {
         WeeklySpecialCard()
-        MenuDish()
+        MenuListScreen(items)
     }
 }
 
@@ -148,18 +169,117 @@ fun WeeklySpecialCard() {
     }
 }
 
+@Composable
+fun MenuListScreen(items: List<MenuItemRoom>) {
+    Column {
+        UpperPanel()
+        LowerPanel(items)
+    }
+
+}
 
 @Composable
-fun MenuDish() {
-    LazyColumn {
-        items(Dishes) { Dish ->
-            MenuDish(Dish)
+private fun UpperPanel() {
+    Column(
+        modifier = Modifier
+            .background(Color(0xFF495E57))
+            .fillMaxWidth()
+            .padding(start = 12.dp, end = 12.dp, top = 16.dp, bottom = 16.dp)
+    ) {
+        Text(
+            text = stringResource(id = R.string.title),
+            fontSize = 40.sp,
+            fontWeight = Bold,
+            color = Color(0xFFF4CE14)
+        )
+
+    }
+    Text(
+        text = stringResource(id = R.string.order_take_away),
+        fontSize = 24.sp,
+        fontWeight = Bold,
+        textAlign = TextAlign.Center,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    )
+}
+
+@Composable
+private fun LowerPanel(items: List<MenuItemRoom>) {
+    Column {
+        LazyRow {
+            items(Categories) { category ->
+                MenuCategory(category)
+            }
+        }
+        HorizontalDivider(
+            modifier = Modifier.padding(8.dp),
+            color = Color.Gray,
+            thickness = 1.dp
+        )
+        LazyColumn {
+            items(items) { dish ->
+                MenuDish(dish)
+            }
         }
     }
 }
 
-@Preview(showBackground = true)
+val Categories = listOf(
+    "Lunch",
+    "Dessert",
+    "A La Carte",
+    "Mains",
+    "Specials"
+)
+
 @Composable
-fun LowerPanelPreview() {
-    LowerPanel()
+fun MenuCategory(category: String) {
+    Button(
+        onClick = { /*TODO*/ },
+        colors = ButtonDefaults.buttonColors(Color.LightGray),
+        shape = RoundedCornerShape(40),
+        modifier = Modifier.padding(5.dp)
+    ) {
+        Text(
+            text = category
+        )
+    }
+}
+
+@Composable
+fun MenuDish(dish: MenuItemRoom) {
+    Card {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        ) {
+            Column {
+                Text(
+                    text = dish.title, fontSize = 18.sp, fontWeight = Bold
+                )
+                Text(
+                    text = dish.description,
+                    color = Color.Gray,
+                    modifier = Modifier
+                        .padding(top = 5.dp, bottom = 5.dp)
+                        .fillMaxWidth(.75f)
+                )
+                Text(
+                    text = dish.price, color = Color.Gray, fontWeight = Bold
+                )
+            }
+            AsyncImage(
+                model = dish.image,
+                contentDescription = null,
+            )
+        }
+    }
+    HorizontalDivider(
+        modifier = Modifier.padding(start = 8.dp, end = 8.dp),
+        color = Color.LightGray,
+        thickness = 1.dp
+    )
 }

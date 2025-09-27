@@ -9,4 +9,5 @@ object Constant {
     const val  LAST_NAME = "last_name"
     const val  EMAIL = "email"
     const val  IS_REGISTERED = "is_registered"
+    const val  TEXT_EMPTY = ""
 }

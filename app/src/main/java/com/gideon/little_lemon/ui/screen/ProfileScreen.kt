@@ -14,6 +14,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,20 +37,13 @@ import com.gideon.little_lemon.Home
 import com.gideon.little_lemon.R
 import com.gideon.little_lemon.UserViewModel
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.gideon.little_lemon.ui.theme.brandYellow
 
 @Composable
 fun ProfileScreen(
     navController: NavController,
-    userViewModel: UserViewModel = hiltViewModel()
+    userViewModel: UserViewModel
 ) {
-    // State (hoisted-friendly: you can pass these down if you prefer)
-    var firstName by remember { mutableStateOf("") }
-    var lastName by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-
-    // Colors (quick inline palette to match the mock)
-    val brandGreen = Color(0xFF51665A)
-    val brandYellow = Color(0xFFF4C300)
     val surfacePadding = 16.dp
 
     Scaffold(
@@ -98,38 +92,32 @@ fun ProfileScreen(
 
             LabeledTextField(
                 label = "First name",
-                value = firstName,
-                onValueChange = { firstName = it },
-                imeAction = ImeAction.Next
+                value = userViewModel.user.value.firstName,
             )
 
             Spacer(Modifier.height(12.dp))
 
             LabeledTextField(
                 label = "Last name",
-                value = lastName,
-                onValueChange = { lastName = it },
-                imeAction = ImeAction.Next
+                value = userViewModel.user.value.lastName,
             )
 
             Spacer(Modifier.height(12.dp))
 
             LabeledTextField(
                 label = "Email",
-                value = email,
-                onValueChange = { email = it },
-                keyboardType = KeyboardType.Email,
-                imeAction = ImeAction.Done,
+                value = userViewModel.user.value.email,
             )
 
             Spacer(Modifier.height(28.dp))
 
             Button(
                 onClick = {
-
-
-                    navController.navigate(Home.route)
-
+                    userViewModel.logout()
+//                    navController.navigate(Routes.Onboarding) {
+//                        popUpTo(0) { inclusive = true }
+//                        launchSingleTop = true
+//                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -151,9 +139,6 @@ fun ProfileScreen(
 private fun LabeledTextField(
     label: String,
     value: String,
-    onValueChange: (String) -> Unit,
-    keyboardType: KeyboardType = KeyboardType.Text,
-    imeAction: ImeAction = ImeAction.Next,
 ) {
     Column(Modifier.fillMaxWidth()) {
         Text(
@@ -167,16 +152,17 @@ private fun LabeledTextField(
         Spacer(Modifier.height(6.dp))
         OutlinedTextField(
             value = value,
-            onValueChange = onValueChange,
-            modifier = Modifier.fillMaxWidth(),
+            onValueChange = {},          // no-op
+            readOnly = true,             // <-- key part
+            enabled = true,              // keep normal look
             singleLine = true,
-            enabled = false,
             shape = RoundedCornerShape(8.dp),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = keyboardType,
-                imeAction = imeAction
-            ),
-            keyboardActions = KeyboardActions(onDone = { /* hide keyboard if needed */ })
+            modifier = Modifier.fillMaxWidth(),
+            colors = OutlinedTextFieldDefaults.colors(
+                // keep it looking enabled; optional tuning:
+                focusedBorderColor = MaterialTheme.colorScheme.outline,
+                unfocusedBorderColor = MaterialTheme.colorScheme.outline
+            )
         )
     }
 }

@@ -32,7 +32,7 @@ import com.gideon.little_lemon.UserViewModel
 @Composable
 fun HomeScreen(
     navController: NavController,
-    userViewModel: UserViewModel = hiltViewModel()
+    userViewModel: UserViewModel
 ) {
     Column {
         Column(

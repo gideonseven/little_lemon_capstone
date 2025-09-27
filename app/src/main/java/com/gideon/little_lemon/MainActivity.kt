@@ -71,13 +71,22 @@ fun MyNavigation() {
         startDestination = startDestination
     ) {
         composable(Onboarding.route) {
-            Onboarding(navController = navController)
+            Onboarding(
+                navController = navController,
+                userViewModel
+            )
         }
         composable(Home.route) {
-            HomeScreen(navController)
+            HomeScreen(
+                navController,
+                userViewModel
+            )
         }
         composable(Profile.route) {
-            ProfileScreen(navController)
+            ProfileScreen(
+                navController,
+                userViewModel
+            )
         }
     }
 }

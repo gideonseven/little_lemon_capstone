@@ -22,21 +22,20 @@ import com.gideon.little_lemon.Home
 import com.gideon.little_lemon.R
 import com.gideon.little_lemon.UserViewModel
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.gideon.little_lemon.ui.theme.brandYellow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Onboarding(
     navController: NavController,
-    userViewModel: UserViewModel = hiltViewModel()
+    userViewModel: UserViewModel
 ) {
     // State (hoisted-friendly: you can pass these down if you prefer)
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
 
-    // Colors (quick inline palette to match the mock)
-    val brandGreen = Color(0xFF51665A)
-    val brandYellow = Color(0xFFF4C300)
+
     val surfacePadding = 16.dp
 
     Scaffold(
@@ -113,6 +112,7 @@ fun Onboarding(
 
             Button(
                 onClick = {
+                    userViewModel.registerUser(firstName, lastName, email)
                     navController.navigate(Home.route)
                 },
                 modifier = Modifier

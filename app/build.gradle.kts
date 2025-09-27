@@ -8,15 +8,14 @@ plugins {
 
 android {
     namespace = "com.gideon.little_lemon"
-    compileSdk = 36
+    compileSdk = 35           // ← match an installed platform
 
     defaultConfig {
         applicationId = "com.gideon.little_lemon"
         minSdk = 21
-        targetSdk = 36
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -29,33 +28,37 @@ android {
             )
         }
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
-    buildFeatures {
-        compose = true
-    }
+
+    buildFeatures { compose = true }
+    // With the Compose plugin applied, you don't need composeOptions here.
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
+
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.navigation)
+
     implementation(libs.androidx.hilt.compose)
+
     // Hilt
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

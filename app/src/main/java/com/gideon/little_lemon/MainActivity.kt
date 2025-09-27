@@ -129,7 +129,6 @@ fun MyNavigation(database: AppDatabase) {
         }
         composable(Profile.route) {
             ProfileScreen(
-                navController = navController,
                 userViewModel = userViewModel
             )
         }

@@ -57,7 +57,7 @@ Little Lemon is a modern Android restaurant application developed as the capston
 
 | Onboarding | Home Screen | Profile                          |
 |------------|-------------|----------------------------------|
-| ![Onboarding](screenshots/onboarding.png) | ![Home](screenshots/home.png) | ![Menu](screenshots/profile.png) |
+| <img src="screenshots/onboarding.png" width="250" height="500"> | <img src="screenshots/home.png" width="250" height="500"> | <img src="screenshots/profile.png" width="250" height="500"> |
 
 ## License
 

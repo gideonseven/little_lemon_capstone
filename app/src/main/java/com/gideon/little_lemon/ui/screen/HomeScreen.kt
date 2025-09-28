@@ -2,32 +2,41 @@ package com.gideon.little_lemon.ui.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -39,10 +48,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -55,6 +67,9 @@ import com.gideon.little_lemon.Profile
 import com.gideon.little_lemon.R
 import com.gideon.little_lemon.ui.karlaFamily
 import com.gideon.little_lemon.ui.markaziFamily
+import com.gideon.little_lemon.ui.theme.brandChipColors
+import com.gideon.little_lemon.ui.theme.brandGreen
+import com.gideon.little_lemon.ui.theme.brandYellow
 
 @Composable
 fun HomeScreen(
@@ -206,44 +221,55 @@ private fun UpperPanel(items: List<MenuItemRoom>) {
             .fillMaxWidth()
             .padding(start = 12.dp, end = 12.dp, top = 16.dp, bottom = 16.dp)
     ) {
-        OutlinedTextField(
-            value = searchPhrase,
-            onValueChange = {
-                searchPhrase = it
-            },
-            label = { Text("Search") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 50.dp, end = 50.dp)
+//        OutlinedTextField(
+//            value = searchPhrase,
+//            onValueChange = {
+//                searchPhrase = it
+//            },
+//            label = { Text("Search") },
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(start = 50.dp, end = 50.dp)
+//        )
+//        if (searchPhrase.isNotEmpty()) {
+//            menuItems = menuItems.filter { it.title.contains(searchPhrase, ignoreCase = true) }
+//        }
+
+
+        SearchBar(
+            searchText = searchPhrase,
+            onSearchTextChange = { searchPhrase = it },
+            placeholder = "Enter search phrase"
         )
         if (searchPhrase.isNotEmpty()) {
             menuItems = menuItems.filter { it.title.contains(searchPhrase, ignoreCase = true) }
         }
     }
-    Spacer(Modifier.height(12.dp))
-
-    Text(
-        text = stringResource(id = R.string.order_take_away).uppercase(),
-        fontSize = 18.sp,
-        fontWeight = FontWeight.Bold,
-        textAlign = TextAlign.Start,
-        fontFamily = karlaFamily,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-    )
     LowerPanel(menuItems)
 }
 
 @Composable
 private fun LowerPanel(items: List<MenuItemRoom>) {
-    Column {
+
+    Column(modifier = Modifier.background(Color.White)) {
+        Spacer(Modifier.height(16.dp))
+
+        Text(
+            text = stringResource(id = R.string.order_take_away).uppercase(),
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Start,
+            fontFamily = karlaFamily,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        )
         LazyRow(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
         ) {
             items(items.distinctBy { it.category }) { item ->
-                MenuCategory(item.category)
+                MenuCategory(item.category.replaceFirstChar { it.titlecase() })
             }
         }
         HorizontalDivider(
@@ -265,17 +291,29 @@ fun MenuCategory(category: String) {
         onClick = { /*TODO*/ },
         colors = ButtonDefaults.buttonColors(Color.LightGray),
         shape = RoundedCornerShape(40),
-        modifier = Modifier.padding(5.dp)
+        modifier = Modifier
+            .padding(5.dp)
     ) {
         Text(
-            text = category
+            text = category,
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            fontFamily = karlaFamily,
+            color = brandGreen
         )
     }
 }
 
 @Composable
 fun MenuDish(dish: MenuItemRoom) {
-    Card {
+    Card(
+        modifier = Modifier
+            .padding(8.dp)
+            .clickable { /*TODO*/ }
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(10.dp),
+        colors = CardDefaults.cardColors(Color.White)
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -287,18 +325,30 @@ fun MenuDish(dish: MenuItemRoom) {
                 )
                 Text(
                     text = dish.description,
-                    color = Color.Gray,
+                    maxLines = 2,
+                    color = brandGreen,
                     modifier = Modifier
                         .padding(top = 5.dp, bottom = 5.dp)
-                        .fillMaxWidth(.75f)
+                        .fillMaxWidth(.75f),
+                    fontFamily = karlaFamily,
+                    fontWeight = FontWeight.Normal
                 )
+                val price = "$${dish.price}"
                 Text(
-                    text = dish.price, color = Color.Gray, fontWeight = FontWeight.Bold
+                    text = price,
+                    color = brandGreen,
+                    fontWeight = FontWeight.Bold
                 )
             }
             AsyncImage(
                 model = dish.image,
                 contentDescription = null,
+                contentScale = ContentScale.Crop,
+                placeholder = rememberVectorPainter(Icons.Default.Refresh),
+                modifier = Modifier
+                    .aspectRatio(1f)
+                    .padding(4.dp)
+                    .fillMaxWidth()
             )
         }
     }
@@ -333,5 +383,59 @@ fun ExampleSearchBar() {
     ) {
         // Content shown when active (search suggestions, history, etc.)
         Text("Suggestions go here")
+    }
+}
+
+@Composable
+fun SearchBar(
+    modifier: Modifier = Modifier,
+    searchText: String = "",
+    onSearchTextChange: (String) -> Unit = {},
+    placeholder: String = "Enter search phrase"
+) {
+    var text by remember { mutableStateOf(searchText) }
+
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        TextField(
+            value = text,
+            onValueChange = { newText ->
+                text = newText
+                onSearchTextChange(newText)
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp)),
+            placeholder = {
+                Text(
+                    text = placeholder,
+                    color = Color.Gray,
+                    fontSize = 16.sp
+                )
+            },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = "Search",
+                    tint = Color.Gray,
+                    modifier = Modifier.size(20.dp)
+                )
+            },
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.White,
+                unfocusedContainerColor = Color.White,
+                disabledContainerColor = Color.White,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent,
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Black
+            ),
+            singleLine = true,
+            shape = RoundedCornerShape(8.dp)
+        )
     }
 }

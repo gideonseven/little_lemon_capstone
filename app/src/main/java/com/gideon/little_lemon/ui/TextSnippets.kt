@@ -1,6 +1,5 @@
 package com.gideon.little_lemon.ui
 
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle

@@ -29,11 +29,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SearchBar
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -53,8 +49,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -67,9 +61,7 @@ import com.gideon.little_lemon.Profile
 import com.gideon.little_lemon.R
 import com.gideon.little_lemon.ui.karlaFamily
 import com.gideon.little_lemon.ui.markaziFamily
-import com.gideon.little_lemon.ui.theme.brandChipColors
 import com.gideon.little_lemon.ui.theme.brandGreen
-import com.gideon.little_lemon.ui.theme.brandYellow
 
 @Composable
 fun HomeScreen(
@@ -151,8 +143,6 @@ fun HomeScreen(
             MenuListScreen(menuItems)
         }
     }
-
-
 }
 
 @Composable
@@ -221,21 +211,6 @@ private fun UpperPanel(items: List<MenuItemRoom>) {
             .fillMaxWidth()
             .padding(start = 12.dp, end = 12.dp, top = 16.dp, bottom = 16.dp)
     ) {
-//        OutlinedTextField(
-//            value = searchPhrase,
-//            onValueChange = {
-//                searchPhrase = it
-//            },
-//            label = { Text("Search") },
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(start = 50.dp, end = 50.dp)
-//        )
-//        if (searchPhrase.isNotEmpty()) {
-//            menuItems = menuItems.filter { it.title.contains(searchPhrase, ignoreCase = true) }
-//        }
-
-
         SearchBar(
             searchText = searchPhrase,
             onSearchTextChange = { searchPhrase = it },
@@ -359,33 +334,6 @@ fun MenuDish(dish: MenuItemRoom) {
     )
 }
 
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun ExampleSearchBar() {
-    var query by remember { mutableStateOf("") }
-    var active by remember { mutableStateOf(false) }
-
-    SearchBar(
-        query = query,
-        onQueryChange = { query = it },
-        onSearch = { /* handle search */ },
-        active = active,
-        onActiveChange = { active = it },
-        modifier = Modifier.fillMaxWidth(),
-        placeholder = { Text("Search") },
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Default.Search,
-                contentDescription = null
-            )
-        }
-    ) {
-        // Content shown when active (search suggestions, history, etc.)
-        Text("Suggestions go here")
-    }
-}
-
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier,
@@ -398,7 +346,6 @@ fun SearchBar(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp)
     ) {
         TextField(
             value = text,

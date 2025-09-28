@@ -12,4 +12,4 @@ val Pink40 = Color(0xFF7D5260)
 
 // Colors (quick inline palette to match the mock)
 val brandGreen = Color(0xFF51665A)
-val brandYellow = Color(0xFFF4C300)
+val brandYellow = Color(0xFFF4CE14)

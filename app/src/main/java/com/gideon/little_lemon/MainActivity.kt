@@ -12,9 +12,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.room.Room
+import com.gideon.little_lemon.data.MenuItemNetwork
+import com.gideon.little_lemon.data.MenuResponse
 import com.gideon.little_lemon.ui.screen.HomeScreen
 import com.gideon.little_lemon.ui.screen.Onboarding
 import com.gideon.little_lemon.ui.screen.ProfileScreen
@@ -27,10 +31,6 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
 import io.ktor.http.ContentType
 import io.ktor.serialization.kotlinx.json.json
-import androidx.room.Room
-import com.gideon.little_lemon.data.MenuItemNetwork
-import com.gideon.little_lemon.data.MenuResponse
-import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

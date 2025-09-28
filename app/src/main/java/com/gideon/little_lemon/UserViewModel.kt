@@ -1,15 +1,15 @@
 package com.gideon.little_lemon
 
 import android.content.Context
-import androidx.lifecycle.ViewModel
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.core.content.edit
+import androidx.lifecycle.ViewModel
+import com.gideon.little_lemon.data.User
 import com.gideon.little_lemon.util.Constant
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
-import androidx.core.content.edit
-import com.gideon.little_lemon.data.User
 
 
 @HiltViewModel
@@ -73,9 +73,12 @@ class UserViewModel @Inject constructor(
         val sharedPref = context.getSharedPreferences(Constant.USER_PREF, Context.MODE_PRIVATE)
         val isRegistered = sharedPref.getBoolean(Constant.IS_REGISTERED, false)
         if (isRegistered) {
-            val firstName = sharedPref.getString(Constant.FIRST_NAME, Constant.TEXT_EMPTY) ?: Constant.TEXT_EMPTY
-            val lastName = sharedPref.getString(Constant.LAST_NAME, Constant.TEXT_EMPTY) ?: Constant.TEXT_EMPTY
-            val email = sharedPref.getString(Constant.EMAIL, Constant.TEXT_EMPTY) ?: Constant.TEXT_EMPTY
+            val firstName = sharedPref.getString(Constant.FIRST_NAME, Constant.TEXT_EMPTY)
+                ?: Constant.TEXT_EMPTY
+            val lastName =
+                sharedPref.getString(Constant.LAST_NAME, Constant.TEXT_EMPTY) ?: Constant.TEXT_EMPTY
+            val email =
+                sharedPref.getString(Constant.EMAIL, Constant.TEXT_EMPTY) ?: Constant.TEXT_EMPTY
             _user.value = User(firstName, lastName, email)
             _isRegistered.value = true
         }

@@ -17,7 +17,7 @@ Little Lemon is a modern Android restaurant application developed as the capston
 - **Modern UI**: Clean, responsive design following Material Design principles
 - **Smooth Navigation**: Intuitive user experience with seamless transitions
 
-## 🛠Built With
+## Built With
 
 - **Kotlin** - Primary programming language
 - **Android SDK** - Android development framework
